@@ -76,9 +76,17 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
         {/* Add to Cart reveal */}
         <div className="absolute bottom-0 left-0 right-0 add-to-cart-reveal">
-          <div className="bg-terroir-gold text-terroir-espresso font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-center py-3">
+          <button
+            className="w-full bg-terroir-gold text-terroir-espresso font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-center py-3 hover:bg-terroir-gold-light transition-colors"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              addItem(product, product.grindOptions[0], product.weightOptions[0], 1);
+              toast({ title: "✓ Added to cart", description: product.name });
+            }}
+          >
             ADD TO CART
-          </div>
+          </button>
         </div>
       </div>
 
