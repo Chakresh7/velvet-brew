@@ -53,11 +53,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center scroll-indicator">
-        <div className="w-px h-10 bg-terroir-gold/50" />
-        <span className="font-body text-[8px] uppercase tracking-[0.2em] text-terroir-gold/50 mt-2">Scroll</span>
-      </div>
     </section>
   );
 }
