@@ -262,7 +262,7 @@ const NotFound = () => {
         >
           <Link
             to="/"
-            className="font-body font-bold uppercase text-center w-full sm:w-auto transition-all duration-300 hover:shadow-[0_8px_32px_rgba(212,175,55,0.3)]"
+            className="font-body font-bold uppercase text-center w-full sm:w-auto inline-block transition-all duration-300 hover:shadow-[0_8px_32px_rgba(212,175,55,0.3)]"
             style={{
               fontSize: 11,
               letterSpacing: "0.2em",
@@ -270,6 +270,7 @@ const NotFound = () => {
               color: "var(--color-espresso)",
               padding: "16px 36px",
               borderRadius: 2,
+              border: "none",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.background = "var(--color-gold-light)")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "var(--color-gold)")}
