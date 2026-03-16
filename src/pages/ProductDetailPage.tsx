@@ -7,6 +7,8 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Heart, Lock, Leaf, RotateCcw } from "lucide-react";
 import { useScrollProgress } from "@/hooks/use-scroll";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { toast } from "@/hooks/use-toast";
 
 export default function ProductDetailPage() {
   useScrollProgress();
@@ -17,6 +19,8 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [subscribeMode, setSubscribeMode] = useState(false);
+  const { isWishlisted, toggleItem } = useWishlist();
+  const [heartAnim, setHeartAnim] = useState("");
 
   if (!product) {
     return (
@@ -231,8 +235,25 @@ export default function ProductDetailPage() {
               <Button variant="hero" size="xl" className="flex-1">
                 ADD TO CART
               </Button>
-              <button className="p-3 text-terroir-sand hover:text-terroir-gold transition-colors" style={{ border: "1px solid rgba(212,175,55,0.15)" }}>
-                <Heart size={18} />
+              <button
+                className={`p-3 transition-colors ${heartAnim} ${
+                  product && isWishlisted(product.id) ? "text-terroir-gold" : "text-terroir-sand hover:text-terroir-gold"
+                }`}
+                style={{ border: "1px solid rgba(212,175,55,0.15)" }}
+                onClick={() => {
+                  if (!product) return;
+                  if (isWishlisted(product.id)) {
+                    setHeartAnim("wishlist-shake");
+                    toast({ title: "💔 Removed from wishlist", description: product.name });
+                  } else {
+                    setHeartAnim("wishlist-pop");
+                    toast({ title: "❤️ Saved to wishlist", description: product.name });
+                  }
+                  toggleItem(product);
+                  setTimeout(() => setHeartAnim(""), 400);
+                }}
+              >
+                <Heart size={18} fill={product && isWishlisted(product.id) ? "currentColor" : "none"} />
               </button>
             </div>
 

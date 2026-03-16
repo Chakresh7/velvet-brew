@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Search, Heart, ShoppingBag, Menu, X } from "lucide-react";
 import SearchOverlay from "./SearchOverlay";
+import { useWishlist } from "@/contexts/WishlistContext";
 
 const navLinks = [
   { label: "SHOP", href: "/shop" },
@@ -25,6 +26,7 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
   const handleCloseSearch = useCallback(() => setSearchOpen(false), []);
+  const { items, openDrawer, justAdded } = useWishlist();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -81,8 +83,22 @@ export default function Header() {
             <button className="text-terroir-cream hover:text-terroir-gold transition-colors" aria-label="Search" onClick={() => setSearchOpen(true)}>
               <Search size={18} strokeWidth={1.5} />
             </button>
-            <button className="text-terroir-cream hover:text-terroir-gold transition-colors hidden md:block" aria-label="Wishlist">
-              <Heart size={18} strokeWidth={1.5} />
+            <button
+              className={`text-terroir-cream hover:text-terroir-gold transition-colors hidden md:block relative ${justAdded ? "wishlist-heart-pulse" : ""}`}
+              aria-label="Wishlist"
+              onClick={openDrawer}
+            >
+              <Heart
+                size={18}
+                strokeWidth={1.5}
+                className={items.length > 0 ? "text-terroir-gold" : ""}
+                fill={items.length > 0 ? "currentColor" : "none"}
+              />
+              {items.length > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-terroir-gold text-terroir-espresso text-[9px] font-body font-semibold flex items-center justify-center">
+                  {items.length}
+                </span>
+              )}
             </button>
             <button className="text-terroir-cream hover:text-terroir-gold transition-colors relative" aria-label="Cart">
               <ShoppingBag size={18} strokeWidth={1.5} />
