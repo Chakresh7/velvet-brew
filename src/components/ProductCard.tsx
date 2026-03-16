@@ -13,6 +13,7 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const roastDots = Array.from({ length: 5 }, (_, i) => i < product.roastLevel);
   const { isWishlisted, toggleItem } = useWishlist();
+  const { addItem } = useCart();
   const wishlisted = isWishlisted(product.id);
   const [animClass, setAnimClass] = useState("");
 
