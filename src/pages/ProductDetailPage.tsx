@@ -21,7 +21,6 @@ export default function ProductDetailPage() {
   const [subscribeMode, setSubscribeMode] = useState(false);
   const { isWishlisted, toggleItem } = useWishlist();
   const [heartAnim, setHeartAnim] = useState("");
-  const [subscribeMode, setSubscribeMode] = useState(false);
 
   if (!product) {
     return (
