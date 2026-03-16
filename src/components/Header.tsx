@@ -78,7 +78,7 @@ export default function Header() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-5">
-            <button className="text-terroir-cream hover:text-terroir-gold transition-colors" aria-label="Search">
+            <button className="text-terroir-cream hover:text-terroir-gold transition-colors" aria-label="Search" onClick={() => setSearchOpen(true)}>
               <Search size={18} strokeWidth={1.5} />
             </button>
             <button className="text-terroir-cream hover:text-terroir-gold transition-colors hidden md:block" aria-label="Wishlist">
