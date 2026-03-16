@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Heart, Lock, Leaf, RotateCcw } from "lucide-react";
 import { useScrollProgress } from "@/hooks/use-scroll";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/hooks/use-toast";
 
 export default function ProductDetailPage() {
@@ -20,6 +21,7 @@ export default function ProductDetailPage() {
   const [activeImage, setActiveImage] = useState(0);
   const [subscribeMode, setSubscribeMode] = useState(false);
   const { isWishlisted, toggleItem } = useWishlist();
+  const { addItem: addToCart } = useCart();
   const [heartAnim, setHeartAnim] = useState("");
 
   if (!product) {
@@ -232,7 +234,17 @@ export default function ProductDetailPage() {
                   +
                 </button>
               </div>
-              <Button variant="hero" size="xl" className="flex-1">
+              <Button
+                variant="hero"
+                size="xl"
+                className="flex-1"
+                onClick={() => {
+                  const grind = product.grindOptions[selectedGrind];
+                  const weight = product.weightOptions[selectedWeight];
+                  addToCart(product, grind, weight, quantity, subscribeMode);
+                  toast({ title: "✓ Added to cart", description: `${product.name} · ${weight} · ${grind}` });
+                }}
+              >
                 ADD TO CART
               </Button>
               <button

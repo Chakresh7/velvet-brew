@@ -236,3 +236,36 @@
 .wishlist-scrollbar::-webkit-scrollbar { width: 4px; }
 .wishlist-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .wishlist-scrollbar::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.3); border-radius: 2px; }
+
+/* Cart animations */
+@keyframes cart-jiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes cart-badge-bounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.cart-jiggle { animation: cart-jiggle 0.4s ease; }
+.cart-badge-bounce { animation: cart-badge-bounce 0.3s ease; }
+
+/* Cart steam */
+@keyframes cart-steam {
+  0% { opacity: 0; transform: translateY(0) scaleX(1); }
+  50% { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-20px) scaleX(1.5); }
+}
+.cart-steam-1, .cart-steam-2 {
+  position: absolute;
+  top: -8px;
+  width: 8px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(212,175,55,0.2);
+}
+.cart-steam-1 { left: 30%; animation: cart-steam 2s ease-in-out infinite; }
+.cart-steam-2 { left: 55%; animation: cart-steam 2s ease-in-out infinite 0.5s; }
