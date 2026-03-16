@@ -22,7 +22,7 @@ export default function HeroSection() {
       {/* Content */}
       <div
         ref={ref}
-        className="relative z-10 h-full flex items-center max-w-[1440px] mx-auto px-6 md:px-20"
+        className="relative z-10 h-full flex items-end pb-16 md:pb-24 max-w-[1440px] mx-auto px-6 md:px-20"
       >
         <div className="max-w-[680px] stagger-children">
           <span className="fade-up font-body text-[10px] font-medium uppercase tracking-[0.3em] text-terroir-gold block mb-6">
