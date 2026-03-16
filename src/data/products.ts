@@ -1,0 +1,290 @@
+import productBeans1 from "@/assets/product-beans-1.jpg";
+import productBag1 from "@/assets/product-bag-1.jpg";
+import productTea1 from "@/assets/product-tea-1.jpg";
+import productPourover from "@/assets/product-pourover.jpg";
+import lifestyleCup from "@/assets/lifestyle-cup.jpg";
+import subscriptionBox from "@/assets/subscription-box.jpg";
+
+export interface Product {
+  id: string;
+  name: string;
+  origin: string;
+  region: string;
+  tastingNotes: string[];
+  roastLevel: number; // 1-5
+  price: number;
+  subscribePrice: number;
+  rating: number;
+  reviews: number;
+  badge?: string;
+  image: string;
+  category: "coffee" | "tea";
+  grindOptions: string[];
+  weightOptions: string[];
+  acidity: number;
+  body: number;
+  sweetness: number;
+  description: string;
+  elevation: string;
+  process: string;
+  harvest: string;
+  farmer: string;
+}
+
+export const products: Product[] = [
+  {
+    id: "ethiopia-yirgacheffe",
+    name: "Ethiopia Yirgacheffe",
+    origin: "ETHIOPIA",
+    region: "YIRGACHEFFE · GEDEO ZONE",
+    tastingNotes: ["Blueberry", "Jasmine", "Dark Chocolate"],
+    roastLevel: 2,
+    price: 34,
+    subscribePrice: 28.9,
+    rating: 4.9,
+    reviews: 214,
+    badge: "BEST SELLER",
+    image: productBeans1,
+    category: "coffee",
+    grindOptions: ["Whole Bean", "Espresso", "Pour Over", "French Press"],
+    weightOptions: ["250g", "500g", "1kg"],
+    acidity: 3,
+    body: 4,
+    sweetness: 5,
+    description: "From the misty highlands of Gedeo Zone, this washed process lot delivers extraordinary floral complexity with waves of blueberry sweetness.",
+    elevation: "1,950–2,200m",
+    process: "Washed",
+    harvest: "November–January",
+    farmer: "Aricha Washing Station",
+  },
+  {
+    id: "colombia-gesha",
+    name: "Colombia Gesha Reserve",
+    origin: "COLOMBIA",
+    region: "HUILA · SAN AGUSTÍN",
+    tastingNotes: ["Bergamot", "Peach", "Honey"],
+    roastLevel: 2,
+    price: 48,
+    subscribePrice: 40.8,
+    rating: 4.8,
+    reviews: 87,
+    badge: "LIMITED",
+    image: productBag1,
+    category: "coffee",
+    grindOptions: ["Whole Bean", "Espresso", "Pour Over", "French Press"],
+    weightOptions: ["250g", "500g"],
+    acidity: 4,
+    body: 3,
+    sweetness: 5,
+    description: "A rare Gesha varietal grown at extreme altitude. This micro-lot offers an ethereal cup with layers of bergamot, stone fruit, and raw honey.",
+    elevation: "1,800–2,100m",
+    process: "Honey",
+    harvest: "April–June",
+    farmer: "Finca El Paraíso",
+  },
+  {
+    id: "japan-gyokuro",
+    name: "Kyoto Gyokuro Imperial",
+    origin: "JAPAN",
+    region: "UJI · KYOTO PREFECTURE",
+    tastingNotes: ["Umami", "Sweet Grass", "Marine"],
+    roastLevel: 1,
+    price: 62,
+    subscribePrice: 52.7,
+    rating: 4.9,
+    reviews: 56,
+    badge: "NEW ORIGIN",
+    image: productTea1,
+    category: "tea",
+    grindOptions: ["Loose Leaf", "Sachets"],
+    weightOptions: ["50g", "100g"],
+    acidity: 1,
+    body: 5,
+    sweetness: 4,
+    description: "Shade-grown for 21 days before harvest. This supreme Gyokuro from Uji delivers an impossibly rich umami with a lingering sweet finish.",
+    elevation: "200–400m",
+    process: "Shade-grown, Steamed",
+    harvest: "First Flush · April",
+    farmer: "Marukyu Koyamaen",
+  },
+  {
+    id: "kenya-aa",
+    name: "Kenya AA Nyeri",
+    origin: "KENYA",
+    region: "NYERI · CENTRAL HIGHLANDS",
+    tastingNotes: ["Blackcurrant", "Grapefruit", "Brown Sugar"],
+    roastLevel: 3,
+    price: 32,
+    subscribePrice: 27.2,
+    rating: 4.7,
+    reviews: 142,
+    badge: "BEST SELLER",
+    image: productPourover,
+    category: "coffee",
+    grindOptions: ["Whole Bean", "Espresso", "Pour Over", "French Press"],
+    weightOptions: ["250g", "500g", "1kg"],
+    acidity: 5,
+    body: 4,
+    sweetness: 3,
+    description: "Bold and bright, this AA grade from Nyeri's volcanic soils delivers intense blackcurrant and citrus with a syrupy brown sugar finish.",
+    elevation: "1,700–1,900m",
+    process: "Washed",
+    harvest: "October–December",
+    farmer: "Othaya Cooperative",
+  },
+  {
+    id: "guatemala-antigua",
+    name: "Guatemala Antigua",
+    origin: "GUATEMALA",
+    region: "ANTIGUA · SACATEPÉQUEZ",
+    tastingNotes: ["Cocoa", "Caramel", "Plum"],
+    roastLevel: 4,
+    price: 28,
+    subscribePrice: 23.8,
+    rating: 4.8,
+    reviews: 198,
+    image: lifestyleCup,
+    category: "coffee",
+    grindOptions: ["Whole Bean", "Espresso", "Pour Over", "French Press"],
+    weightOptions: ["250g", "500g", "1kg"],
+    acidity: 2,
+    body: 5,
+    sweetness: 4,
+    description: "Grown between three volcanoes, this heritage lot produces a velvety cup with deep cocoa, caramel sweetness, and dried plum.",
+    elevation: "1,500–1,700m",
+    process: "Natural",
+    harvest: "January–March",
+    farmer: "Finca La Azotea",
+  },
+  {
+    id: "india-darjeeling",
+    name: "Darjeeling First Flush",
+    origin: "INDIA",
+    region: "DARJEELING · WEST BENGAL",
+    tastingNotes: ["Muscatel", "Apricot", "White Flower"],
+    roastLevel: 1,
+    price: 44,
+    subscribePrice: 37.4,
+    rating: 4.9,
+    reviews: 73,
+    badge: "SEASONAL",
+    image: subscriptionBox,
+    category: "tea",
+    grindOptions: ["Loose Leaf", "Sachets"],
+    weightOptions: ["50g", "100g", "200g"],
+    acidity: 3,
+    body: 2,
+    sweetness: 4,
+    description: "The 'Champagne of Teas.' This first flush picking delivers the prized muscatel character with delicate apricot and white flower aromatics.",
+    elevation: "2,000–2,200m",
+    process: "Orthodox",
+    harvest: "First Flush · March",
+    farmer: "Makaibari Estate",
+  },
+  {
+    id: "panama-geisha",
+    name: "Panama Geisha Hacienda",
+    origin: "PANAMA",
+    region: "BOQUETE · CHIRIQUÍ",
+    tastingNotes: ["Tropical Fruit", "Rose", "Vanilla"],
+    roastLevel: 2,
+    price: 85,
+    subscribePrice: 72.25,
+    rating: 5.0,
+    reviews: 34,
+    badge: "RARE ORIGIN",
+    image: productBeans1,
+    category: "coffee",
+    grindOptions: ["Whole Bean", "Pour Over"],
+    weightOptions: ["125g", "250g"],
+    acidity: 4,
+    body: 3,
+    sweetness: 5,
+    description: "The world's most celebrated coffee varietal. This lot from Boquete delivers an explosion of tropical fruit, rose petals, and vanilla bean.",
+    elevation: "1,600–1,800m",
+    process: "Washed",
+    harvest: "January–March",
+    farmer: "Hacienda La Esmeralda",
+  },
+  {
+    id: "sumatra-mandheling",
+    name: "Sumatra Mandheling",
+    origin: "INDONESIA",
+    region: "NORTH SUMATRA · LINTONG",
+    tastingNotes: ["Cedar", "Dark Chocolate", "Tobacco"],
+    roastLevel: 5,
+    price: 26,
+    subscribePrice: 22.1,
+    rating: 4.6,
+    reviews: 167,
+    image: productBag1,
+    category: "coffee",
+    grindOptions: ["Whole Bean", "Espresso", "French Press"],
+    weightOptions: ["250g", "500g", "1kg"],
+    acidity: 1,
+    body: 5,
+    sweetness: 2,
+    description: "Full-bodied and earthy, this wet-hulled Sumatran delivers cedar, bittersweet chocolate, and pipe tobacco in a powerful, lingering cup.",
+    elevation: "1,100–1,500m",
+    process: "Wet-Hulled (Giling Basah)",
+    harvest: "June–September",
+    farmer: "Lintong Cooperative",
+  },
+];
+
+export const blogPosts = [
+  {
+    id: "pour-over-guide",
+    title: "How to Brew Pour-Over Like a Champion Barista",
+    category: "BREW GUIDE",
+    excerpt: "Master the art of manual brewing with our step-by-step guide to achieving competition-level extractions at home.",
+    image: productPourover,
+  },
+  {
+    id: "women-farmers",
+    title: "The Women Farmers Revolutionizing Ethiopian Coffee",
+    category: "ORIGIN STORY",
+    excerpt: "Meet the cooperative leaders transforming sustainability and quality across the Gedeo Zone's highland farms.",
+    image: lifestyleCup,
+  },
+  {
+    id: "tea-chocolate-pairing",
+    title: "Pairing Guide: Rare Teas & Dark Chocolate",
+    category: "THE RITUAL",
+    excerpt: "Discover the unexpected harmony between single-origin teas and artisan chocolate from our master taster's pairings.",
+    image: productTea1,
+  },
+];
+
+export const testimonials = [
+  {
+    quote: "TERROIR has completely transformed my morning ritual. The Ethiopia Yirgacheffe is unlike anything I've tasted — it's like drinking blueberry perfume.",
+    name: "Catherine M.",
+    location: "San Francisco, CA",
+    rating: 5,
+  },
+  {
+    quote: "I've been a subscriber for two years now. Every month feels like opening a gift from a very knowledgeable friend who knows exactly what I love.",
+    name: "James R.",
+    location: "Brooklyn, NY",
+    rating: 5,
+  },
+  {
+    quote: "The Panama Geisha was a revelation. I didn't know coffee could taste like tropical flowers. Worth every penny for that once-in-a-lifetime cup.",
+    name: "Sophia L.",
+    location: "Austin, TX",
+    rating: 5,
+  },
+  {
+    quote: "As a former sommelier, I appreciate the attention to terroir and provenance. These are wines disguised as coffee. Absolutely exceptional sourcing.",
+    name: "David K.",
+    location: "Portland, OR",
+    rating: 5,
+  },
+  {
+    quote: "The Kyoto Gyokuro changed my understanding of tea entirely. The umami depth is incredible — it's a meditative experience in every cup.",
+    name: "Elena W.",
+    location: "Seattle, WA",
+    rating: 5,
+  },
+];

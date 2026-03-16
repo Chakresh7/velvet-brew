@@ -1,0 +1,93 @@
+import { Link } from "react-router-dom";
+import { Heart } from "lucide-react";
+import { type Product } from "@/data/products";
+
+interface ProductCardProps {
+  product: Product;
+}
+
+export default function ProductCard({ product }: ProductCardProps) {
+  const roastDots = Array.from({ length: 5 }, (_, i) => i < product.roastLevel);
+
+  return (
+    <Link
+      to={`/product/${product.id}`}
+      className="product-card block group"
+      style={{
+        background: "rgba(44, 31, 20, 0.6)",
+        border: "1px solid rgba(212,175,55,0.15)",
+      }}
+    >
+      {/* Image */}
+      <div className="relative overflow-hidden" style={{ aspectRatio: "3/4" }}>
+        <img
+          src={product.image}
+          alt={product.name}
+          className="card-image w-full h-full object-cover"
+        />
+        {/* Badge */}
+        {product.badge && (
+          <span className="absolute top-3 left-3 bg-terroir-gold text-terroir-espresso font-body text-[8px] font-semibold uppercase tracking-[0.1em] px-2.5 py-1">
+            {product.badge}
+          </span>
+        )}
+        {/* Wishlist */}
+        <button
+          className="absolute top-3 right-3 text-terroir-cream/60 hover:text-terroir-gold transition-colors"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+          aria-label="Add to wishlist"
+        >
+          <Heart size={18} strokeWidth={1.5} />
+        </button>
+        {/* Quick View overlay */}
+        <div className="absolute inset-0 bg-terroir-espresso/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-center justify-center">
+          <span className="font-body text-[11px] font-medium uppercase tracking-[0.15em] text-terroir-cream">
+            QUICK VIEW
+          </span>
+        </div>
+        {/* Add to Cart reveal */}
+        <div className="absolute bottom-0 left-0 right-0 add-to-cart-reveal">
+          <div className="bg-terroir-gold text-terroir-espresso font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-center py-3">
+            ADD TO CART
+          </div>
+        </div>
+      </div>
+
+      {/* Info */}
+      <div className="p-4 md:p-5">
+        <h3 className="font-display text-lg md:text-xl font-semibold text-terroir-cream">
+          {product.name}
+        </h3>
+        <p className="font-body text-[11px] font-normal uppercase tracking-[0.1em] text-terroir-gold mt-1">
+          {product.origin} · {product.region.split("·")[0].trim()}
+        </p>
+        <p className="font-body text-xs text-terroir-text-muted mt-2">
+          {product.tastingNotes.join(" · ")}
+        </p>
+
+        {/* Roast Level */}
+        <div className="flex items-center gap-1.5 mt-3">
+          <span className="font-body text-[9px] uppercase tracking-[0.1em] text-terroir-sand mr-1">Roast</span>
+          {roastDots.map((filled, i) => (
+            <span
+              key={i}
+              className={`w-2 h-2 rounded-full ${
+                filled ? "bg-terroir-gold" : "bg-terroir-gold/20"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Price */}
+        <div className="mt-3 flex items-baseline gap-3">
+          <span className="font-body text-lg font-semibold text-terroir-cream">
+            ${product.price.toFixed(2)}
+          </span>
+          <span className="font-body text-[13px] text-terroir-gold">
+            Subscribe: ${product.subscribePrice.toFixed(2)}
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
