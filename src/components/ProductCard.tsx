@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { type Product } from "@/data/products";
+import { useWishlist } from "@/contexts/WishlistContext";
+import { useState } from "react";
+import { toast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
   product: Product;
@@ -8,6 +11,24 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const roastDots = Array.from({ length: 5 }, (_, i) => i < product.roastLevel);
+  const { isWishlisted, toggleItem } = useWishlist();
+  const wishlisted = isWishlisted(product.id);
+  const [animClass, setAnimClass] = useState("");
+
+  const handleWishlistToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (wishlisted) {
+      setAnimClass("wishlist-shake");
+      toast({ title: "💔 Removed from wishlist", description: product.name });
+    } else {
+      setAnimClass("wishlist-pop");
+      toast({ title: "❤️ Saved to wishlist", description: product.name });
+    }
+    toggleItem(product);
+    setTimeout(() => setAnimClass(""), 400);
+  };
 
   return (
     <Link
@@ -33,11 +54,17 @@ export default function ProductCard({ product }: ProductCardProps) {
         )}
         {/* Wishlist */}
         <button
-          className="absolute top-3 right-3 text-terroir-cream/60 hover:text-terroir-gold transition-colors"
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-          aria-label="Add to wishlist"
+          className={`absolute top-3 right-3 transition-colors ${animClass} ${
+            wishlisted ? "text-terroir-gold" : "text-terroir-cream/60 hover:text-terroir-gold"
+          }`}
+          onClick={handleWishlistToggle}
+          aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
         >
-          <Heart size={18} strokeWidth={1.5} />
+          <Heart
+            size={18}
+            strokeWidth={1.5}
+            fill={wishlisted ? "currentColor" : "none"}
+          />
         </button>
         {/* Quick View overlay */}
         <div className="absolute inset-0 bg-terroir-espresso/40 opacity-0 group-hover:opacity-100 transition-opacity duration-400 flex items-center justify-center">
