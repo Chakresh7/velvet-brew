@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Heart } from "lucide-react";
 import { type Product } from "@/data/products";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useCart } from "@/contexts/CartContext";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
 
@@ -12,6 +13,7 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const roastDots = Array.from({ length: 5 }, (_, i) => i < product.roastLevel);
   const { isWishlisted, toggleItem } = useWishlist();
+  const { addItem } = useCart();
   const wishlisted = isWishlisted(product.id);
   const [animClass, setAnimClass] = useState("");
 
@@ -74,9 +76,17 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
         {/* Add to Cart reveal */}
         <div className="absolute bottom-0 left-0 right-0 add-to-cart-reveal">
-          <div className="bg-terroir-gold text-terroir-espresso font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-center py-3">
+          <button
+            className="w-full bg-terroir-gold text-terroir-espresso font-body text-[11px] font-semibold uppercase tracking-[0.15em] text-center py-3 hover:bg-terroir-gold-light transition-colors"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              addItem(product, product.grindOptions[0], product.weightOptions[0], 1);
+              toast({ title: "✓ Added to cart", description: product.name });
+            }}
+          >
             ADD TO CART
-          </div>
+          </button>
         </div>
       </div>
 
