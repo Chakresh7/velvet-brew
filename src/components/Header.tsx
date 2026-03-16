@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Search, Heart, ShoppingBag, Menu, X } from "lucide-react";
 import SearchOverlay from "./SearchOverlay";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useCart } from "@/contexts/CartContext";
 
 const navLinks = [
   { label: "SHOP", href: "/shop" },
@@ -26,7 +27,8 @@ export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
   const handleCloseSearch = useCallback(() => setSearchOpen(false), []);
-  const { items, openDrawer, justAdded } = useWishlist();
+  const { items: wishlistItems, openDrawer: openWishlist, justAdded: wishlistJustAdded, closeDrawer: closeWishlist } = useWishlist();
+  const { totalItems: cartCount, openDrawer: openCart, closeDrawer: closeCart, justAddedId: cartJustAdded } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -38,6 +40,22 @@ export default function Header() {
     setMobileOpen(false);
     setMegaOpen(false);
   }, [location]);
+
+  const handleOpenWishlist = () => {
+    closeCart();
+    openWishlist();
+  };
+
+  const handleOpenCart = () => {
+    closeWishlist();
+    openCart();
+  };
+
+  const handleOpenSearch = () => {
+    closeCart();
+    closeWishlist();
+    setSearchOpen(true);
+  };
 
   return (
     <>
@@ -80,31 +98,37 @@ export default function Header() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-5">
-            <button className="text-terroir-cream hover:text-terroir-gold transition-colors" aria-label="Search" onClick={() => setSearchOpen(true)}>
+            <button className="text-terroir-cream hover:text-terroir-gold transition-colors" aria-label="Search" onClick={handleOpenSearch}>
               <Search size={18} strokeWidth={1.5} />
             </button>
             <button
-              className={`text-terroir-cream hover:text-terroir-gold transition-colors hidden md:block relative ${justAdded ? "wishlist-heart-pulse" : ""}`}
+              className={`text-terroir-cream hover:text-terroir-gold transition-colors hidden md:block relative ${wishlistJustAdded ? "wishlist-heart-pulse" : ""}`}
               aria-label="Wishlist"
-              onClick={openDrawer}
+              onClick={handleOpenWishlist}
             >
               <Heart
                 size={18}
                 strokeWidth={1.5}
-                className={items.length > 0 ? "text-terroir-gold" : ""}
-                fill={items.length > 0 ? "currentColor" : "none"}
+                className={wishlistItems.length > 0 ? "text-terroir-gold" : ""}
+                fill={wishlistItems.length > 0 ? "currentColor" : "none"}
               />
-              {items.length > 0 && (
+              {wishlistItems.length > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-terroir-gold text-terroir-espresso text-[9px] font-body font-semibold flex items-center justify-center">
-                  {items.length}
+                  {wishlistItems.length}
                 </span>
               )}
             </button>
-            <button className="text-terroir-cream hover:text-terroir-gold transition-colors relative" aria-label="Cart">
+            <button
+              className={`text-terroir-cream hover:text-terroir-gold transition-colors relative ${cartJustAdded ? "cart-jiggle" : ""}`}
+              aria-label="Cart"
+              onClick={handleOpenCart}
+            >
               <ShoppingBag size={18} strokeWidth={1.5} />
-              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-terroir-gold text-terroir-espresso text-[9px] font-body font-semibold flex items-center justify-center">
-                2
-              </span>
+              {cartCount > 0 && (
+                <span className={`absolute -top-1.5 -right-1.5 w-4 h-4 bg-terroir-gold text-terroir-espresso text-[9px] font-body font-semibold flex items-center justify-center ${cartJustAdded ? "cart-badge-bounce" : ""}`}>
+                  {cartCount}
+                </span>
+              )}
             </button>
             <button
               className="lg:hidden text-terroir-cream hover:text-terroir-gold transition-colors"
