@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Search, Heart, ShoppingBag, Menu, X } from "lucide-react";
+import SearchOverlay from "./SearchOverlay";
 
 const navLinks = [
   { label: "SHOP", href: "/shop" },
@@ -21,7 +22,9 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
+  const handleCloseSearch = useCallback(() => setSearchOpen(false), []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -75,7 +78,7 @@ export default function Header() {
 
           {/* Right Icons */}
           <div className="flex items-center gap-5">
-            <button className="text-terroir-cream hover:text-terroir-gold transition-colors" aria-label="Search">
+            <button className="text-terroir-cream hover:text-terroir-gold transition-colors" aria-label="Search" onClick={() => setSearchOpen(true)}>
               <Search size={18} strokeWidth={1.5} />
             </button>
             <button className="text-terroir-cream hover:text-terroir-gold transition-colors hidden md:block" aria-label="Wishlist">
@@ -177,6 +180,9 @@ export default function Header() {
           </nav>
         </div>
       )}
+
+      {/* Search Overlay */}
+      <SearchOverlay open={searchOpen} onClose={handleCloseSearch} />
     </>
   );
 }

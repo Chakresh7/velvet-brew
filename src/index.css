@@ -175,6 +175,20 @@
   transform: translateY(0);
 }
 
+/* Search overlay animations */
+@keyframes search-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+@keyframes search-results-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes search-row-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
