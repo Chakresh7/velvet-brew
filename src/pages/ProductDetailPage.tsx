@@ -21,6 +21,7 @@ export default function ProductDetailPage() {
   const [activeImage, setActiveImage] = useState(0);
   const [subscribeMode, setSubscribeMode] = useState(false);
   const { isWishlisted, toggleItem } = useWishlist();
+  const { addItem: addToCart } = useCart();
   const [heartAnim, setHeartAnim] = useState("");
 
   if (!product) {
