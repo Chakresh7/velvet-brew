@@ -233,7 +233,17 @@ export default function ProductDetailPage() {
                   +
                 </button>
               </div>
-              <Button variant="hero" size="xl" className="flex-1">
+              <Button
+                variant="hero"
+                size="xl"
+                className="flex-1"
+                onClick={() => {
+                  const grind = product.grindOptions[selectedGrind];
+                  const weight = product.weightOptions[selectedWeight];
+                  addToCart(product, grind, weight, quantity, subscribeMode);
+                  toast({ title: "✓ Added to cart", description: `${product.name} · ${weight} · ${grind}` });
+                }}
+              >
                 ADD TO CART
               </Button>
               <button
