@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Heart, Lock, Leaf, RotateCcw } from "lucide-react";
 import { useScrollProgress } from "@/hooks/use-scroll";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/hooks/use-toast";
 
 export default function ProductDetailPage() {
