@@ -180,6 +180,9 @@ export default function Header() {
           </nav>
         </div>
       )}
+
+      {/* Search Overlay */}
+      <SearchOverlay open={searchOpen} onClose={handleCloseSearch} />
     </>
   );
 }
