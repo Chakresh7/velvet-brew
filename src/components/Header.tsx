@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Search, Heart, ShoppingBag, Menu, X } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Search, Heart, ShoppingBag, Menu, X, User } from "lucide-react";
 import SearchOverlay from "./SearchOverlay";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 const navLinks = [
   { label: "SHOP", href: "/shop" },
@@ -25,10 +26,15 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [userDropdown, setUserDropdown] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const handleCloseSearch = useCallback(() => setSearchOpen(false), []);
   const { items: wishlistItems, openDrawer: openWishlist, justAdded: wishlistJustAdded, closeDrawer: closeWishlist } = useWishlist();
   const { totalItems: cartCount, openDrawer: openCart, closeDrawer: closeCart, justAddedId: cartJustAdded } = useCart();
+  const { user, signOut, openAuthModal } = useAuth();
+
+  const userInitial = user?.user_metadata?.first_name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || "U";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -39,7 +45,16 @@ export default function Header() {
   useEffect(() => {
     setMobileOpen(false);
     setMegaOpen(false);
+    setUserDropdown(false);
   }, [location]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    if (!userDropdown) return;
+    const handler = () => setUserDropdown(false);
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, [userDropdown]);
 
   const handleOpenWishlist = () => {
     closeCart();
@@ -55,6 +70,11 @@ export default function Header() {
     closeCart();
     closeWishlist();
     setSearchOpen(true);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    setUserDropdown(false);
   };
 
   return (
@@ -130,6 +150,78 @@ export default function Header() {
                 </span>
               )}
             </button>
+
+            {/* Account / User Avatar */}
+            {user ? (
+              <div className="relative hidden md:block">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setUserDropdown(!userDropdown);
+                  }}
+                  className="w-8 h-8 rounded-full flex items-center justify-center font-display text-sm font-bold text-terroir-gold transition-all hover:border-terroir-gold-light"
+                  style={{
+                    background: "rgba(212,175,55,0.15)",
+                    border: "1.5px solid var(--color-gold)",
+                  }}
+                >
+                  {userInitial}
+                </button>
+
+                {/* Dropdown */}
+                {userDropdown && (
+                  <div
+                    className="absolute right-0 top-full mt-2 w-56 py-2 animate-[fade-in_0.2s_ease]"
+                    style={{
+                      background: "var(--color-espresso)",
+                      border: "1px solid rgba(212,175,55,0.25)",
+                      boxShadow: "0 16px 48px rgba(0,0,0,0.6)",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="px-5 py-3" style={{ borderBottom: "1px solid rgba(212,175,55,0.15)" }}>
+                      <span className="font-accent italic text-[16px] text-terroir-cream">
+                        Hello, {user.user_metadata?.first_name || "there"}
+                      </span>
+                    </div>
+                    {[
+                      { label: "My Orders", href: "/" },
+                      { label: "Subscriptions", href: "/" },
+                      { label: "Wishlist", action: handleOpenWishlist },
+                      { label: "Account Settings", href: "/" },
+                    ].map((item) => (
+                      <button
+                        key={item.label}
+                        onClick={() => {
+                          setUserDropdown(false);
+                          if (item.action) item.action();
+                          else if (item.href) navigate(item.href);
+                        }}
+                        className="w-full text-left px-5 py-2.5 font-body text-[12px] text-terroir-cream hover:text-terroir-gold transition-colors"
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                    <div className="mx-5 my-1 h-px" style={{ background: "rgba(212,175,55,0.15)" }} />
+                    <button
+                      onClick={handleSignOut}
+                      className="w-full text-left px-5 py-2.5 font-body text-[12px] text-terroir-cream hover:text-[#C0392B] transition-colors"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                className="text-terroir-cream hover:text-terroir-gold transition-colors hidden md:block"
+                aria-label="Account"
+                onClick={openAuthModal}
+              >
+                <User size={18} strokeWidth={1.5} />
+              </button>
+            )}
+
             <button
               className="lg:hidden text-terroir-cream hover:text-terroir-gold transition-colors"
               onClick={() => setMobileOpen(true)}
@@ -217,6 +309,25 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+            {/* Mobile auth link */}
+            {user ? (
+              <button
+                onClick={handleSignOut}
+                className="font-body text-lg font-medium uppercase tracking-[0.15em] text-terroir-cream hover:text-[#C0392B] transition-colors text-left"
+              >
+                SIGN OUT
+              </button>
+            ) : (
+              <button
+                onClick={() => {
+                  setMobileOpen(false);
+                  openAuthModal();
+                }}
+                className="font-body text-lg font-medium uppercase tracking-[0.15em] text-terroir-cream hover:text-terroir-gold transition-colors text-left"
+              >
+                SIGN IN
+              </button>
+            )}
           </nav>
         </div>
       )}

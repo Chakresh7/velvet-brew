@@ -269,3 +269,16 @@
 }
 .cart-steam-1 { left: 30%; animation: cart-steam 2s ease-in-out infinite; }
 .cart-steam-2 { left: 55%; animation: cart-steam 2s ease-in-out infinite 0.5s; }
+
+/* Auth input focus */
+.auth-input:focus {
+  border-color: var(--color-gold) !important;
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
+  background: rgba(44,31,20,0.8) !important;
+}
+
+/* Confetti animation */
+@keyframes confetti-fall {
+  0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(300px) rotate(720deg); }
+}
